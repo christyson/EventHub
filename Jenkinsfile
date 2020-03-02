@@ -23,7 +23,7 @@ pipeline {
       // upload and scan
       steps {
         withCredentials([usernamePassword(credentialsId: 'Veracode', passwordVariable: 'VERACODEKEY', usernameVariable: 'VERACODEID')]) {
-          veracode applicationName: '$JOB_NAME', canFailJob: false, createProfile: true, criticality: 'High', fileNamePattern: '', replacementPattern: '', sandboxName: '', scanExcludesPattern: '', scanIncludesPattern: '', scanName: "$BUILD_NUMBER", teams: '', timeout: 60, uploadExcludesPattern: '', uploadIncludesPattern: '**/**.war', vid: VERACODEID, vkey: VERACODEKEY
+          veracode applicationName: '$JOB_NAME', canFailJob: false, createProfile: true, criticality: 'High', fileNamePattern: '', replacementPattern: '', sandboxName: '', scanExcludesPattern: '', scanIncludesPattern: '', scanName: "$BUILD_NUMBER", teams: '', timeout: 60, uploadExcludesPattern: '', uploadIncludesPattern: '**/**.jar', vid: VERACODEID, vkey: VERACODEKEY
         }
       }
     }
