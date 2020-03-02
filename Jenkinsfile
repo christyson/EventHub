@@ -10,6 +10,19 @@ pipeline {
         sh 'mvn -q package'
       }
     }
+    stage('SCA SC') {
+       withCredentials([string(credentialsId: 'SRCCLR_API_TOKEN', variable: 'SRCCLR_API_TOKEN')]) {
+          sh '''
+             curl -sSL https://download.sourceclear.com/ci.sh | sh
+          '''             
+        }  
+	  }
+    stage('Veracode Sast') {
+        // upload and scan
+        withCredentials([usernamePassword(credentialsId: 'Veracode', passwordVariable: 'VERACODEKEY', usernameVariable: 'VERACODEID')]) {
+          veracode applicationName: '$JOB_NAME', canFailJob: false, createProfile: true, criticality: 'High', fileNamePattern: '', replacementPattern: '', sandboxName: '', scanExcludesPattern: '', scanIncludesPattern: '', scanName: "$BUILD_NUMBER", teams: '', timeout: 60, uploadExcludesPattern: '', uploadIncludesPattern: '**/**.war', useIDkey: true, vid: VERACODEID, vkey: VERACODEKEY, vpassword: '', vuser: ''
+        }
+    }       
     stage('Test') {
       steps {
         // 1.	Enable Veracode Interactive for the steps that run the tests. 
