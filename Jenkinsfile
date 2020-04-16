@@ -7,6 +7,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
+        sh 'curl -sSL https://s3.us-east-2.amazonaws.com/app.veracode-iast.io/iast-ci.sh |  sh'
         sh 'mvn -q package'
       }
     }
